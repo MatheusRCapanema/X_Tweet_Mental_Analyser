@@ -27,6 +27,10 @@ def analyze_profile(df, model):
     Analyzes a DataFrame of tweets (with 'text' column) using the provided model.
     Adds 'translation', 'prediction', and 'probability' columns.
     """
+    if model is None:
+        print("Error: Model is None in analyze_profile")
+        return pd.DataFrame()
+
     results = []
     
     # Analyze each tweet

@@ -15,11 +15,14 @@ st.set_page_config(
 )
 
 # Load Model
-@st.cache_resource
+@st.cache_resource(ttl=300) # Access cache for 5 minutes, enables reloading if file appears
 def load_model():
     model_path = "models/mental_health_model.pkl"
+    # Force check file existence every time not cached
     if not os.path.exists(model_path):
+        print("Model file not found.")
         return None
+    print(f"Loading model from {model_path}...")
     return joblib.load(model_path)
 
 model = load_model()
@@ -100,6 +103,10 @@ with tab2:
             st.warning("Digite o perfil alvo.")
         else:
             target_user = target_user.replace("@", "").strip()
+            
+            if not model:
+                st.error("⚠️ Modelo de Machine Learning não encontrado. Verifique se o arquivo .pkl foi enviado ao GitHub.")
+                st.stop()
             
             with st.status("Autenticando e Buscando Tweets...", expanded=True) as status:
                 st.write("Conectando ao Twitter...")

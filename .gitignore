@@ -32,8 +32,6 @@ ENV/
 cookies*.json
 data/
 *.csv
-*.pkl
-*.joblib
 resultado.txt
 
 # IDE
